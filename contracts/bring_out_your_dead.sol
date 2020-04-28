@@ -6,7 +6,13 @@ pragma experimental ABIEncoderV2;
 import "SafeMath.sol";
 import "IERC20.sol";
 
-contract BringOutYourDead {
+import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/Module.sol";
+import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/ModuleManager.sol";
+import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/OwnerManager.sol";
+import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/common/Enum.sol";
+
+
+contract BringOutYourDead is Module {
     uint constant MAX_UINT = 2**256 - 1;
     address constant KYBER_ETH_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address public KYBER_NETWORK_PROXY_ADDRESS = 0x818E6FECD516Ecc3849DAf6845e3EC868087B755;
@@ -29,16 +35,20 @@ contract BringOutYourDead {
     enum Lifesigns { Alive, Dead, Uncertain }
     Lifesigns public liveliness;
     uint256 public declareDeadAfter;
-    //uint256 public uncertaintyPeriod = 8 weeks;
-    uint256 public uncertaintyPeriod = 8 seconds;  // For demonstration
+    uint256 public uncertaintyPeriod = 8 weeks;
+    // uint256 public uncertaintyPeriod = 8 seconds;  // For demonstration
 
     // Gnosis Safe Recovery settings
     bool public isExecutorRequiredForSafeRecovery;
     uint256 public beneficiariesRequiredForSafeRecovery;
+    // isExecuted mapping maps data hash to execution status.
+    mapping (bytes32 => bool) public isExecuted;
+    // isConfirmed mapping maps data hash to beneficiary's address to confirmation status.
+    mapping (bytes32 => mapping (address => bool)) public isConfirmed;
 
     // Dead Man's Switch settings
     bool public isDeadMansSwitchEnabled;
-    uint256 public deadMansSwitchCheckinMinutes;
+    uint256 public deadMansSwitchCheckinSeconds;
     uint256 public deadMansSwitchLastCheckin;
 
     struct ShareHolder {
@@ -63,7 +73,7 @@ contract BringOutYourDead {
     event IsExecutorRequiredForSafeRecoveryChanged(bool indexed newValue);
     event BeneficiariesRequiredForSafeRecoveryChanged(uint256 indexed newValue);
     event IsDeadMansSwitchEnabledChanged(bool indexed newValue);
-    event DeadMansSwitchCheckinMinutesChanged(uint256 indexed newValue);
+    event DeadMansSwitchCheckinSecondsChanged(uint256 indexed newValue);
     // event DeadMansSwitchCheckin();
 
     // TODO: Ability for owner to invest/withdraw from interest bearing savings contracts
@@ -143,32 +153,79 @@ contract BringOutYourDead {
     function () external payable {
     }
     
-    function addTrackedToken(address token) public onlyController {
-        require(address(0) != token, "Token address is missing");
-        emit TrackedTokenAdded(token);
-        trackedTokens.push(token);
+    /// @dev Allows an executor or beneficiary to confirm a Safe transaction.
+    /// @param dataHash Safe transaction hash.
+    function confirmTransaction(bytes32 dataHash)
+        public
+        onlyMember
+    {
+        require(!isExecuted[dataHash], "Recovery already executed");
+        isConfirmed[dataHash][msg.sender] = true;
     }
     
-    function removeTrackedToken(address token) public onlyController {
-        require(address(0) != token, "Token address is missing");
-        uint256 index;
-        emit TrackedTokenRemoved(token);
-        // TODO: finish this
-        uint256 i;
-        for(i=0; i<trackedTokens.length; i++) {
-            if(trackedTokens[i] == token) {
-                index = i;
-                break;
+    /// @dev Returns if Safe transaction is a valid owner replacement transaction.
+    /// @param prevOwner Owner that pointed to the owner to be replaced in the linked list
+    /// @param oldOwner Owner address to be replaced.
+    /// @param newOwner New owner address.
+    /// @return Returns if transaction can be executed.
+    function recoverAccess(address prevOwner, address oldOwner, address newOwner)
+        public
+        onlyMember
+    {
+        bytes memory data = abi.encodeWithSignature("swapOwner(address,address,address)", prevOwner, oldOwner, newOwner);
+        bytes32 dataHash = getDataHash(data);
+        require(!isExecuted[dataHash], "Recovery already executed");
+        require(isConfirmedByRequiredParties(dataHash), "Recovery has not enough confirmations");
+        isExecuted[dataHash] = true;
+        require(manager.execTransactionFromModule(address(manager), 0, data, Enum.Operation.Call), "Could not execute recovery");
+    }
+    
+    /// @dev Returns if Safe transaction is a valid owner replacement transaction.
+    /// @param dataHash Data hash.
+    /// @return Confirmation status.
+    function isConfirmedByRequiredParties(bytes32 dataHash)
+        public
+        view
+        returns (bool)
+    {
+        if(isExecutorRequiredForSafeRecovery && !isConfirmed[dataHash][executor]) {
+            return false;
+        }
+        if(beneficiariesRequiredForSafeRecovery > 0 && beneficiaries.length > 0) {
+            uint256 confirmationCount;
+            for (uint256 i = 0; i < beneficiaries.length; i++) {
+                if (isConfirmed[dataHash][beneficiaries[i]]) {
+                    confirmationCount++;
+                }
+                if (confirmationCount == beneficiariesRequiredForSafeRecovery) {
+                    return true;
+                }
             }
+            
         }
-        if(index < trackedTokens.length-1) {
-            trackedTokens[i] = trackedTokens[trackedTokens.length-1];
-        }
-        trackedTokens.length--;
+        return false;
+    }
+    
+    /// @dev Returns hash of data encoding owner replacement.
+    /// @param data Data payload.
+    /// @return Data hash.
+    function getDataHash(bytes memory data)
+        public
+        pure
+        returns (bytes32)
+    {
+        return keccak256(data);
+    }
+    
+    // The Gnosis Safe creating this estate should call this function during initialization
+    function gnosisSafeSetup() public onlyOwner {
+        // Gnosis Safe contracts/base/Module.sol:
+        setManager();
+        setGnosisSafe(msg.sender);
     }
     
     // The Gnosis Safe associated with this contract acts as a co-owner and has the full rights that the primary owner has
-    function changeGnosisSafe(address newSafe) public onlyOwner {
+    function setGnosisSafe(address newSafe) public onlyOwner {
         // Allow setting to zero address to disable Gnosis Safe co-ownership
         // require(newSafe != address(0), "Gnosis Safe address is missing");
         emit GnosisSafeChanged(gnosisSafe, newSafe);
@@ -193,10 +250,10 @@ contract BringOutYourDead {
         }
     }
     
-    function setDeadMansSwitchCheckinMinutes(uint256 newValue) public onlyOwner {
-        require(0 != newValue, "Dead Man's Switch check-in minutes must be greater than zero");
-        emit DeadMansSwitchCheckinMinutesChanged(newValue);
-        deadMansSwitchCheckinMinutes = newValue;
+    function setDeadMansSwitchCheckinSeconds(uint256 newValue) public onlyOwner {
+        require(0 != newValue, "Dead Man's Switch check-in seconds must be greater than zero");
+        emit DeadMansSwitchCheckinSecondsChanged(newValue);
+        deadMansSwitchCheckinSeconds = newValue;
     }
     
     function transferOwnership(address newOwner) public onlyOwner {
@@ -373,6 +430,31 @@ contract BringOutYourDead {
         }
     }
     
+    function addTrackedToken(address token) public onlyController {
+        require(address(0) != token, "Token address is missing");
+        emit TrackedTokenAdded(token);
+        trackedTokens.push(token);
+    }
+    
+    function removeTrackedToken(address token) public onlyController {
+        require(address(0) != token, "Token address is missing");
+        uint256 index;
+        emit TrackedTokenRemoved(token);
+        // TODO: finish this
+        uint256 i;
+        for(i=0; i<trackedTokens.length; i++) {
+            if(trackedTokens[i] == token) {
+                index = i;
+                break;
+            }
+        }
+        if(index < trackedTokens.length-1) {
+            trackedTokens[i] = trackedTokens[trackedTokens.length-1];
+        }
+        trackedTokens.length--;
+    }
+
+    
     function oracleCallback(bool isDead) public onlyOracle notDead {
         if(isDead) {
             setUncertain();
@@ -426,7 +508,7 @@ contract BringOutYourDead {
         // require(declareDeadAfter != 0 && declareDeadAfter < now, "Owner still has time to demonstrate life");
 
         require(isDeadMansSwitchEnabled, "Dead Man's Switch is not enabled");
-        require(deadMansSwitchLastCheckin + (deadMansSwitchCheckinMinutes minutes) < now, "Owner has checked-in as alive too recently");
+        require(deadMansSwitchLastCheckin + (deadMansSwitchCheckinSeconds) < now, "Owner has checked-in as alive too recently");
         emit ConfirmationOfDeath();
         liveliness = Lifesigns.Dead;
     }

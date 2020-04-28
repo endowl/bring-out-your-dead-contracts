@@ -8,16 +8,19 @@ import "IERC20.sol";
 
 import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/Module.sol";
 import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/ModuleManager.sol";
-import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/OwnerManager.sol";
 import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/common/Enum.sol";
 
 
+
 contract BringOutYourDead is Module {
+// contract BringOutYourDead {
     uint constant MAX_UINT = 2**256 - 1;
     address constant KYBER_ETH_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address public KYBER_NETWORK_PROXY_ADDRESS = 0x818E6FECD516Ecc3849DAf6845e3EC868087B755;
     address constant REFERAL_ADDRESS = 0xdac3794d1644D7cE73d098C19f33E7e10271b2bC;
     
+    // Gnosis Safe module manager
+    // ModuleManager public manager;  Inherited from Module
     address public owner;
     address public gnosisSafe;
     address public executor;
@@ -74,7 +77,6 @@ contract BringOutYourDead is Module {
     event BeneficiariesRequiredForSafeRecoveryChanged(uint256 indexed newValue);
     event IsDeadMansSwitchEnabledChanged(bool indexed newValue);
     event DeadMansSwitchCheckinSecondsChanged(uint256 indexed newValue);
-    // event DeadMansSwitchCheckin();
 
     // TODO: Ability for owner to invest/withdraw from interest bearing savings contracts
     // TODO: Add second waiting period after death for executor to withdraw and pay debts before payout to beneficiaries
@@ -178,6 +180,7 @@ contract BringOutYourDead is Module {
         require(isConfirmedByRequiredParties(dataHash), "Recovery has not enough confirmations");
         isExecuted[dataHash] = true;
         require(manager.execTransactionFromModule(address(manager), 0, data, Enum.Operation.Call), "Could not execute recovery");
+        // require(manager.execTransactionFromModule(address(manager), 0, data, 0), "Could not execute recovery");
     }
     
     /// @dev Returns if Safe transaction is a valid owner replacement transaction.
@@ -224,10 +227,17 @@ contract BringOutYourDead is Module {
         setGnosisSafe(msg.sender);
     }
     
+    function setManager() internal
+    {
+        // manager can only be 0 at initalization of contract.
+        // Check ensures that setup function can only be called once.
+        require(address(manager) == address(0), "Manager has already been set");
+        manager = ModuleManager(msg.sender);
+    }
+    
     // The Gnosis Safe associated with this contract acts as a co-owner and has the full rights that the primary owner has
     function setGnosisSafe(address newSafe) public onlyOwner {
         // Allow setting to zero address to disable Gnosis Safe co-ownership
-        // require(newSafe != address(0), "Gnosis Safe address is missing");
         emit GnosisSafeChanged(gnosisSafe, newSafe);
         gnosisSafe = newSafe;
     }

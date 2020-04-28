@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
-// Proof of Death - Digital Inheritance Automation
+// Alfred.Estate - Proof of Death - Digital Inheritance Automation
 
 import "SafeMath.sol";
 import "IERC20.sol";
@@ -13,6 +13,7 @@ contract BringOutYourDead {
     address constant REFERAL_ADDRESS = 0xdac3794d1644D7cE73d098C19f33E7e10271b2bC;
     
     address public owner;
+    address public gnosisSafe;
     address public executor;
     address public oracle;
     address[] public beneficiaries;
@@ -31,36 +32,48 @@ contract BringOutYourDead {
     //uint256 public uncertaintyPeriod = 8 weeks;
     uint256 public uncertaintyPeriod = 8 seconds;  // For demonstration
 
+    // Gnosis Safe Recovery settings
+    bool public isExecutorRequiredForSafeRecovery;
+    uint256 public beneficiariesRequiredForSafeRecovery;
+
+    // Dead Man's Switch settings
+    bool public isDeadMansSwitchEnabled;
+    uint256 public deadMansSwitchCheckinMinutes;
+    uint256 public deadMansSwitchLastCheckin;
+
     struct ShareHolder {
         address who;
         uint256 shares;
     }
 
-    // TODO: Ability for owner to invest/withdraw from interest bearing savings contracts
-
-
-
-    event ReportOfDeath(address reporter);
-    event ConfirmationOfLife(address reporter);
+    event ReportOfDeath(address indexed reporter);
+    event ConfirmationOfLife(address indexed reporter);
     event ConfirmationOfDeath();
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    event OracleChanged(address oldOracle, address newOracle);
-    event ExecutorChanged(address oldExecutor, address newExecutor);
-    event AddedBeneficiary(address newBeneficiary, uint256 shares);
-    event RemovedBeneficiary(address formerBeneficiary, uint256 removedShares);
-    event ChangedBeneficiaryShares(address beneficiary, uint256 oldShares, uint256 newShares);
-    event ChangedBeneficiaryAddress(address oldAddress, address newAddress);
-    event BeneficiaryWithdrawal(address beneficiary, address token, uint256 amount);
-    event TrackedTokenAdded(address token);
-    event TrackedTokenRemoved(address token);
+    event GnosisSafeChanged(address indexed gnosisSafe, address indexed newSafe);
+    event OracleChanged(address indexed oldOracle, address indexed newOracle);
+    event ExecutorChanged(address indexed oldExecutor, address indexed newExecutor);
+    event AddedBeneficiary(address indexed newBeneficiary, uint256 indexed shares);
+    event RemovedBeneficiary(address indexed formerBeneficiary, uint256 indexed removedShares);
+    event ChangedBeneficiaryShares(address indexed beneficiary, uint256 indexed oldShares, uint256 indexed newShares);
+    event ChangedBeneficiaryAddress(address indexed oldAddress, address indexed newAddress);
+    event BeneficiaryWithdrawal(address indexed beneficiary, address indexed token, uint256 indexed amount);
+    event TrackedTokenAdded(address indexed token);
+    event TrackedTokenRemoved(address indexed token);
+    event IsExecutorRequiredForSafeRecoveryChanged(bool indexed newValue);
+    event BeneficiariesRequiredForSafeRecoveryChanged(uint256 indexed newValue);
+    event IsDeadMansSwitchEnabledChanged(bool indexed newValue);
+    event DeadMansSwitchCheckinMinutesChanged(uint256 indexed newValue);
+    // event DeadMansSwitchCheckin();
 
+    // TODO: Ability for owner to invest/withdraw from interest bearing savings contracts
     // TODO: Add second waiting period after death for executor to withdraw and pay debts before payout to beneficiaries
     // TODO: Support withdrawal/settling from loan dapps prior to any withdrawals
     // TODO: After second waiting period establish actual share per beneficiary based on share proportions
 
     
     modifier onlyOwner() {
-        require(msg.sender == owner, "Caller is not the owner");
+        require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the owner");
         require(liveliness != Lifesigns.Dead, "Owner is no longer alive");
         _;
     }
@@ -71,13 +84,13 @@ contract BringOutYourDead {
     }
     
     modifier onlyOwnerOrExecutor() {
-        require(msg.sender == owner || msg.sender == executor, "Caller is not the owner or executor");
+        require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor, "Caller is not the owner or executor");
         _;
     }
     
     modifier onlyController() {
         if(liveliness != Lifesigns.Dead) {
-            require(msg.sender == owner, "Caller is not the owner and the owner is still alive");
+            require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the owner and the owner is still alive");
         } else {
             require(msg.sender == executor, "Caller is not the executor and the owner is no longer alive");
         }
@@ -87,7 +100,7 @@ contract BringOutYourDead {
     modifier onlyControllerOrBeneficiary(address who) {
         if(msg.sender != who) {
             if(liveliness != Lifesigns.Dead) {
-                require(msg.sender == owner, "Caller is not the beneficiary or the owner and the owner is still alive");
+                require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the beneficiary or the owner and the owner is still alive");
             } else {
                 require(msg.sender == executor, "Caller is not the beneficiary or the executor and the owner is no longer alive");
             }
@@ -101,7 +114,7 @@ contract BringOutYourDead {
     }
 
     modifier onlyMember() {
-        require(msg.sender == owner || msg.sender == executor || beneficiaryShares[msg.sender] > 0, "Caller is not a member");
+        require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryShares[msg.sender] > 0, "Caller is not a member");
         _;
     }
 
@@ -123,6 +136,8 @@ contract BringOutYourDead {
     constructor() public {
         owner = msg.sender;
         liveliness = Lifesigns.Alive;
+        isExecutorRequiredForSafeRecovery = true;
+        beneficiariesRequiredForSafeRecovery = 1;
     }
     
     function () external payable {
@@ -150,6 +165,38 @@ contract BringOutYourDead {
             trackedTokens[i] = trackedTokens[trackedTokens.length-1];
         }
         trackedTokens.length--;
+    }
+    
+    // The Gnosis Safe associated with this contract acts as a co-owner and has the full rights that the primary owner has
+    function changeGnosisSafe(address newSafe) public onlyOwner {
+        // Allow setting to zero address to disable Gnosis Safe co-ownership
+        // require(newSafe != address(0), "Gnosis Safe address is missing");
+        emit GnosisSafeChanged(gnosisSafe, newSafe);
+        gnosisSafe = newSafe;
+    }
+    
+    function setIsExecutorRequiredForSafeRecovery(bool newValue) public onlyOwner {
+        emit IsExecutorRequiredForSafeRecoveryChanged(newValue);
+        isExecutorRequiredForSafeRecovery = newValue;
+    }
+    
+    function setBeneficiariesRequiredForSafeRecovery(uint256 newValue) public onlyOwner {
+        emit BeneficiariesRequiredForSafeRecoveryChanged(newValue);
+        beneficiariesRequiredForSafeRecovery = newValue;
+    }
+    
+    function setIsDeadMansSwitchEnabled(bool newValue) public onlyOwner {
+        emit IsDeadMansSwitchEnabledChanged(newValue);
+        isDeadMansSwitchEnabled = newValue;
+        if(true == newValue) {
+            deadMansSwitchLastCheckin = now;
+        }
+    }
+    
+    function setDeadMansSwitchCheckinMinutes(uint256 newValue) public onlyOwner {
+        require(0 != newValue, "Dead Man's Switch check-in minutes must be greater than zero");
+        emit DeadMansSwitchCheckinMinutesChanged(newValue);
+        deadMansSwitchCheckinMinutes = newValue;
     }
     
     function transferOwnership(address newOwner) public onlyOwner {
@@ -335,7 +382,8 @@ contract BringOutYourDead {
         //}
     }
 
-    // Call after owner has been reported dead and the waiting period has passed to establish confirmation of death
+    // With dead man's switch: Call after the check-in period has passed without the owner checking in
+    // With death oracle: Call after owner has been reported dead and the waiting period has passed to establish confirmation of death
     function bringOutYourDead() public onlyMember {
         setDead();
     }
@@ -361,6 +409,9 @@ contract BringOutYourDead {
         emit ConfirmationOfLife(msg.sender);
         liveliness = Lifesigns.Alive;
         declareDeadAfter = 0;
+        if(isDeadMansSwitchEnabled) {
+            deadMansSwitchLastCheckin = now;
+        }
     }
 
     function setUncertain() internal notDead {
@@ -370,8 +421,12 @@ contract BringOutYourDead {
     }
 
     function setDead() internal notDead {
-        require(liveliness == Lifesigns.Uncertain, "Owner has not been reported as dead yet");
-        require(declareDeadAfter != 0 && declareDeadAfter < now, "Owner still has time to demonstrate life");
+        // NOTE: This functionality will be enabled when the death oracle is fully implemented
+        // require(liveliness == Lifesigns.Uncertain, "Owner has not been reported as dead yet");
+        // require(declareDeadAfter != 0 && declareDeadAfter < now, "Owner still has time to demonstrate life");
+
+        require(isDeadMansSwitchEnabled, "Dead Man's Switch is not enabled");
+        require(deadMansSwitchLastCheckin + (deadMansSwitchCheckinMinutes minutes) < now, "Owner has checked-in as alive too recently");
         emit ConfirmationOfDeath();
         liveliness = Lifesigns.Dead;
     }
@@ -407,4 +462,3 @@ contract KyberNetworkProxy {
   function getBalance ( address token, address user ) external view returns ( uint256 );
   function admin (  ) external view returns ( address );
 }
-

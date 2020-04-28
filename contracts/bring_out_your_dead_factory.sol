@@ -1,23 +1,11 @@
 pragma solidity ^0.5.0;
 
+// Alfred.Estate - Proof of Death - Digital Inheritance Automation
+
 import "bring_out_your_dead.sol";
 
 contract BringOutYourDeadFactory {
     event estateCreated(address indexed estate, address indexed owner);
-/*
-    function newEstate(address oracle, address executor) public payable returns (address estateContract) {
-        BringOutYourDead boyd = new BringOutYourDead();
-        if(address(0) != oracle) {
-            boyd.changeOracle(oracle);
-        }
-        if(address(0) != executor) {
-            boyd.changeExecutor(executor);
-        }
-        boyd.transferOwnership(msg.sender);
-        emit estateCreated(address(boyd), msg.sender);
-        return address(boyd);
-    }
-*/
 
     // Use CREATE2 to create estate at predeterminable address
     function newEstate(address oracle, address executor, uint256 salt) public payable returns (address payable estate) {
@@ -50,5 +38,21 @@ contract BringOutYourDeadFactory {
         return estate;
 
     }
+
+    // Old approach, using original CREATE rather than CREATE2
+/*
+    function newEstate(address oracle, address executor) public payable returns (address estateContract) {
+        BringOutYourDead boyd = new BringOutYourDead();
+        if(address(0) != oracle) {
+            boyd.changeOracle(oracle);
+        }
+        if(address(0) != executor) {
+            boyd.changeExecutor(executor);
+        }
+        boyd.transferOwnership(msg.sender);
+        emit estateCreated(address(boyd), msg.sender);
+        return address(boyd);
+    }
+*/
 
 }

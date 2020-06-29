@@ -3,8 +3,8 @@ pragma experimental ABIEncoderV2;
 
 // Alfred.Estate - Proof of Death - Digital Inheritance Automation
 
-import "SafeMath.sol";
-import "IERC20.sol";
+import "./SafeMath.sol";
+import "./IERC20.sol";
 
 import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/Module.sol";
 import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/ModuleManager.sol";
@@ -18,7 +18,7 @@ contract BringOutYourDead is Module {
     address constant KYBER_ETH_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address public KYBER_NETWORK_PROXY_ADDRESS = 0x818E6FECD516Ecc3849DAf6845e3EC868087B755;
     address constant REFERAL_ADDRESS = 0xdac3794d1644D7cE73d098C19f33E7e10271b2bC;
-    
+
     // Gnosis Safe module manager
     // ModuleManager public manager;  Inherited from Module
     address public owner;
@@ -34,7 +34,7 @@ contract BringOutYourDead is Module {
     // TODO: Further evaluate if precision is sufficient for share ratios
     uint256 private precision = 8**10;
     address[] public trackedTokens;
-    
+
     enum Lifesigns { Alive, Dead, Uncertain }
     Lifesigns public liveliness;
     uint256 public declareDeadAfter;
@@ -83,23 +83,23 @@ contract BringOutYourDead is Module {
     // TODO: Support withdrawal/settling from loan dapps prior to any withdrawals
     // TODO: After second waiting period establish actual share per beneficiary based on share proportions
 
-    
+
     modifier onlyOwner() {
         require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the owner");
         require(liveliness != Lifesigns.Dead, "Owner is no longer alive");
         _;
     }
-    
+
     modifier onlyExecutor() {
         require(msg.sender == executor, "Caller is not the executor");
         _;
     }
-    
+
     modifier onlyOwnerOrExecutor() {
         require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor, "Caller is not the owner or executor");
         _;
     }
-    
+
     modifier onlyController() {
         if(liveliness != Lifesigns.Dead) {
             require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the owner and the owner is still alive");
@@ -108,9 +108,11 @@ contract BringOutYourDead is Module {
         }
         _;
     }
-    
+
     modifier onlyControllerOrBeneficiary(address who) {
-        if(msg.sender != who) {
+        if(msg.sender == who) {
+            require(beneficiaryIndex[who] > 0, "Address is not a registered beneficiary");
+        } else {
             if(liveliness != Lifesigns.Dead) {
                 require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the beneficiary or the owner and the owner is still alive");
             } else {
@@ -121,12 +123,14 @@ contract BringOutYourDead is Module {
     }
 
     modifier onlyBeneficiary() {
-        require(beneficiaryShares[msg.sender] > 0, "Caller does not have any shares");
+        require(beneficiaryIndex[msg.sender] > 0, "Caller is not a registered beneficiary");
+        // require(beneficiaryShares[msg.sender] > 0, "Caller does not have any shares");
         _;
     }
 
     modifier onlyMember() {
-        require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryShares[msg.sender] > 0, "Caller is not a member");
+        require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryIndex[msg.sender] > 0, "Caller is not a member");
+        // require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryShares[msg.sender] > 0, "Caller is not a member");
         _;
     }
 
@@ -139,22 +143,24 @@ contract BringOutYourDead is Module {
         require(liveliness != Lifesigns.Dead, "Owner is no longer alive");
         _;
     }
-    
+
     modifier onlyDead() {
-        require(liveliness == Lifesigns.Dead, "Owner is not yet confirmed dead");
+        require(liveliness == Lifesigns.Dead, "Owner has not been confirmed as dead");
         _;
     }
-    
+
     constructor() public {
         owner = msg.sender;
         liveliness = Lifesigns.Alive;
         isExecutorRequiredForSafeRecovery = true;
         beneficiariesRequiredForSafeRecovery = 1;
     }
-    
+
     function () external payable {
+        // THIS SPACE INTENTIONALLY LEFT BLANK
+        // Any code  here could consume too much gas, causing basic ETH payments to fail
     }
-    
+
     /// @dev Allows an executor or beneficiary to confirm a Safe transaction.
     /// @param dataHash Safe transaction hash.
     function confirmTransaction(bytes32 dataHash)
@@ -164,7 +170,7 @@ contract BringOutYourDead is Module {
         require(!isExecuted[dataHash], "Recovery already executed");
         isConfirmed[dataHash][msg.sender] = true;
     }
-    
+
     /// @dev Returns if Safe transaction is a valid owner replacement transaction.
     /// @param prevOwner Owner that pointed to the owner to be replaced in the linked list
     /// @param oldOwner Owner address to be replaced.
@@ -182,7 +188,7 @@ contract BringOutYourDead is Module {
         require(manager.execTransactionFromModule(address(manager), 0, data, Enum.Operation.Call), "Could not execute recovery");
         // require(manager.execTransactionFromModule(address(manager), 0, data, 0), "Could not execute recovery");
     }
-    
+
     /// @dev Returns if Safe transaction is a valid owner replacement transaction.
     /// @param dataHash Data hash.
     /// @return Confirmation status.
@@ -204,11 +210,11 @@ contract BringOutYourDead is Module {
                     return true;
                 }
             }
-            
+
         }
         return false;
     }
-    
+
     /// @dev Returns hash of data encoding owner replacement.
     /// @param data Data payload.
     /// @return Data hash.
@@ -219,14 +225,14 @@ contract BringOutYourDead is Module {
     {
         return keccak256(data);
     }
-    
+
     // The Gnosis Safe creating this estate should call this function during initialization
     function gnosisSafeSetup() public onlyOwner {
         // Gnosis Safe contracts/base/Module.sol:
         setManager();
         setGnosisSafe(msg.sender);
     }
-    
+
     function setManager() internal
     {
         // manager can only be 0 at initalization of contract.
@@ -234,24 +240,24 @@ contract BringOutYourDead is Module {
         require(address(manager) == address(0), "Manager has already been set");
         manager = ModuleManager(msg.sender);
     }
-    
+
     // The Gnosis Safe associated with this contract acts as a co-owner and has the full rights that the primary owner has
     function setGnosisSafe(address newSafe) public onlyOwner {
         // Allow setting to zero address to disable Gnosis Safe co-ownership
         emit GnosisSafeChanged(gnosisSafe, newSafe);
         gnosisSafe = newSafe;
     }
-    
+
     function setIsExecutorRequiredForSafeRecovery(bool newValue) public onlyOwner {
         emit IsExecutorRequiredForSafeRecoveryChanged(newValue);
         isExecutorRequiredForSafeRecovery = newValue;
     }
-    
+
     function setBeneficiariesRequiredForSafeRecovery(uint256 newValue) public onlyOwner {
         emit BeneficiariesRequiredForSafeRecoveryChanged(newValue);
         beneficiariesRequiredForSafeRecovery = newValue;
     }
-    
+
     function setIsDeadMansSwitchEnabled(bool newValue) public onlyOwner {
         emit IsDeadMansSwitchEnabledChanged(newValue);
         isDeadMansSwitchEnabled = newValue;
@@ -259,25 +265,25 @@ contract BringOutYourDead is Module {
             deadMansSwitchLastCheckin = now;
         }
     }
-    
+
     function setDeadMansSwitchCheckinSeconds(uint256 newValue) public onlyOwner {
         require(0 != newValue, "Dead Man's Switch check-in seconds must be greater than zero");
         emit DeadMansSwitchCheckinSecondsChanged(newValue);
         deadMansSwitchCheckinSeconds = newValue;
     }
-    
+
     function transferOwnership(address newOwner) public onlyOwner {
         require(newOwner != address(0), "New owner is missing");
         emit OwnershipTransferred(owner, newOwner);
         owner = newOwner;
     }
-    
+
     function changeOracle(address newOracle) public onlyOwner {
         require(newOracle != address(0), "New oracle is missing");
         emit OracleChanged(oracle, newOracle);
         oracle = newOracle;
     }
-    
+
     function changeExecutor(address newExecutor) public onlyOwnerOrExecutor {
         require(newExecutor != address(0), "New executor is missing");
         emit ExecutorChanged(executor, newExecutor);
@@ -289,7 +295,7 @@ contract BringOutYourDead is Module {
             beneficiaryDetails[i] = ShareHolder(beneficiaries[i], beneficiaryShares[beneficiaries[i]]);
         }
     }
-    
+
     // Determine size of beneficiaries share of tokens given locked in or current balance
     function getBeneficiaryBalance(address beneficiary, address token) public view returns (uint256 shareBalance) {
         // Check if tokens have already been balanced
@@ -312,38 +318,40 @@ contract BringOutYourDead is Module {
         uint256 share = SafeMath.div(SafeMath.mul(precision, totalTokens), shareRatio);
 
         return share;
-
     }
 
     function addBeneficiary(address newBeneficiary, uint256 shares) public onlyController {
         require(newBeneficiary != address(0), "New beneficiary is missing");
-        require(shares > 0, "Shares must be greater than zero");
-        require(beneficiaryShares[newBeneficiary] == 0, "New beneficiary already exists");
+        // require(shares > 0, "Shares must be greater than zero");
+        // require(beneficiaryShares[newBeneficiary] == 0, "New beneficiary already exists");
+        require(beneficiaryIndex[newBeneficiary] == 0, "New address is already a registered beneficiary");
         uint256 index = beneficiaries.push(newBeneficiary);
         beneficiaryIndex[newBeneficiary] = index;
         beneficiaryShares[newBeneficiary] = shares;
         totalShares = SafeMath.add(totalShares, shares);
         emit AddedBeneficiary(newBeneficiary, shares);
     }
-    
+
     function removeBeneficiary(address beneficiary) public onlyController {
         require(beneficiary != address(0), "Beneficiary address is missing");
-        require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
+        // require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
+        require(beneficiaryIndex[beneficiary] > 0, "Address is not a registered beneficiary");
         uint256 index = beneficiaryIndex[beneficiary];
         for(uint256 i = index; i<beneficiaries.length; i++) {
             beneficiaries[i] = beneficiaries[i+1];
         }
         beneficiaries.length = beneficiaries.length-1;
         beneficiaryIndex[beneficiary] = 0;
-        beneficiaryShares[beneficiary] = 0;
         uint256 sharesRemoved = beneficiaryShares[beneficiary];
+        beneficiaryShares[beneficiary] = 0;
         totalShares = SafeMath.sub(totalShares, sharesRemoved);
         emit RemovedBeneficiary(beneficiary, sharesRemoved);
     }
 
     function changeBeneficiaryShares(address beneficiary, uint256 newShares) public onlyController {
         require(beneficiary != address(0), "Beneficiary address is missing");
-        require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
+        // require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
+        require(beneficiaryIndex[beneficiary] > 0, "Address is not a registered beneficiary");
         // require(newShares > 0, "Shares must be greater than zero");
         uint256 oldShares = beneficiaryShares[beneficiary];
         totalShares = SafeMath.sub(totalShares, oldShares);
@@ -351,19 +359,20 @@ contract BringOutYourDead is Module {
         beneficiaryShares[beneficiary] = newShares;
         emit ChangedBeneficiaryShares(beneficiary, oldShares, newShares);
     }
-    
+
     function changeBeneficiaryAddress(address oldAddress, address newAddress) public onlyControllerOrBeneficiary(oldAddress) {
         require(oldAddress != address(0), "Old beneficiary address is missing");
         require(newAddress != address(0), "New beneficiary address is missing");
+        require(beneficiaryIndex[oldAddress] > 0, "Old address is not a registered beneficiary");
         // require(beneficiaryShares[oldAddress] > 0, "Account is not a current beneficiary");
-        uint256 index = beneficiaryIndex[oldAddress];
+        uint256 index = beneficiaryIndex[oldAddress] - 1;
         uint256 shares = beneficiaryShares[oldAddress];
         beneficiaries[index] = newAddress;
         beneficiaryShares[oldAddress] = 0;
         beneficiaryShares[newAddress] = shares;
         emit ChangedBeneficiaryAddress(oldAddress, newAddress);
     }
-    
+
     function claimEthShares() public {
         claimTokenShares(address(0));
     }
@@ -377,7 +386,7 @@ contract BringOutYourDead is Module {
         determinePoolSize(token);
         sendShare(msg.sender, token, address(0));
     }
-    
+
     function distributeEthShares() public {
         distributeTokenShares(address(0));
     }
@@ -397,9 +406,11 @@ contract BringOutYourDead is Module {
             sendShare(b, token, address(0));
         }
     }
-    
+
     function determinePoolSize(address token) internal {
         // Determine the total amount of ETH or tokens held if not yet known
+        // NOTE: This does not handle situations where the total balance increases after the first beneficiary has isBeneficiaryTokenWithdrawn
+        // TODO: Track expected balance and compare with actual balance, handle any detected discrepancies...
         if(totalTokensKnown[token] == 0) {
             if(address(0) == token) {
                 totalTokensKnown[token] = address(this).balance;

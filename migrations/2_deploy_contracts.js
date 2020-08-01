@@ -1,7 +1,7 @@
-var BringOutYourDead = artifacts.require("BringOutYourDead");
-var BringOutYourDeadFactory = artifacts.require("BringOutYourDeadFactory");
+var AlfredEstate = artifacts.require("AlfredEstate");
+var AlfredEstateFactory = artifacts.require("AlfredEstateFactory");
 
 module.exports = function(deployer) {
-    deployer.deploy(BringOutYourDead);
-    deployer.deploy(BringOutYourDeadFactory);
+    deployer.deploy(AlfredEstate);
+    deployer.deploy(AlfredEstateFactory);
 };

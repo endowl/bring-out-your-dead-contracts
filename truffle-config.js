@@ -42,12 +42,29 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    development: {
+    develop: {
      host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
+     port: 9545,            // Standard Ethereum port (default: none)
+     // network_id: "*",       // Any network (default: none)
+     network_id: "1337",       // The useWallet library is picky about network IDs and will accept 1337
      // gas: 10000000,
     },
+    fork: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,
+      network_id: "1",
+    },
+    mainnet: {
+      host: "10.0.0.89",       // Ethereum Main Net Node
+      port: 9545,
+      network_id: "1",
+    },
+    // development: {
+    //  host: "127.0.0.1",     // Localhost (default: none)
+    //  port: 8545,            // Standard Ethereum port (default: none)
+    //  network_id: "*",       // Any network (default: none)
+    //  // gas: 10000000,
+    // },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

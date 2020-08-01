@@ -12,7 +12,8 @@ import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
 import "./IModuleManager.sol";
 
 //contract BringOutYourDead is Module {
-contract BringOutYourDead {
+//contract BringOutYourDead {
+contract AlfredEstate {
     uint constant MAX_UINT = 2**256 - 1;
     address constant KYBER_ETH_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address public KYBER_NETWORK_PROXY_ADDRESS = 0x818E6FECD516Ecc3849DAf6845e3EC868087B755;

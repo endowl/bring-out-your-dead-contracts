@@ -59,6 +59,7 @@ contract AlfredEstate {
         uint256 shares;
     }
 
+    event SimulatingDeath();
     event ReportOfDeath(address indexed reporter);
     event ConfirmationOfLife(address indexed reporter);
     event ConfirmationOfDeath();
@@ -101,9 +102,14 @@ contract AlfredEstate {
     }
 
     modifier onlyController() {
-        if(liveliness != Lifesigns.Dead) {
+        if(liveliness == Lifesigns.SimulatedDead) {
+            // The owner is simulating death
+            require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor, "Caller is not the owner or executor and the owner is simulating death");
+        } else if(liveliness != Lifesigns.Dead) {
+            // The owner is not dead or simulating death
             require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the owner and the owner is still alive");
         } else {
+            // The owner is dead
             require(msg.sender == executor, "Caller is not the executor and the owner is no longer alive");
         }
         _;
@@ -113,9 +119,14 @@ contract AlfredEstate {
         if(msg.sender == who) {
             require(beneficiaryIndex[who] > 0, "Address is not a registered beneficiary");
         } else {
-            if(liveliness != Lifesigns.Dead) {
+            if(liveliness == Lifesigns.SimulatedDead) {
+                // The owner is simulating death
+                require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor, "Caller is not the beneficiary, owner, or executor and the owner is simulating death");
+            } else if(liveliness != Lifesigns.Dead) {
+                // The owner is not dead or simulating death
                 require(msg.sender == owner || msg.sender == gnosisSafe, "Caller is not the beneficiary or the owner and the owner is still alive");
             } else {
+                // The owner is dead
                 require(msg.sender == executor, "Caller is not the beneficiary or the executor and the owner is no longer alive");
             }
         }
@@ -143,7 +154,7 @@ contract AlfredEstate {
     }
 
     modifier onlyDead() {
-        require(liveliness == Lifesigns.Dead, "Owner has not been confirmed as dead");
+        require(liveliness == Lifesigns.Dead || liveliness == Lifesigns.SimulatedDead, "Owner has not been confirmed as dead");
         _;
     }
 
@@ -292,6 +303,11 @@ contract AlfredEstate {
         require(newExecutor != address(0), "New executor is missing");
         emit ExecutorChanged(executor, newExecutor);
         executor = newExecutor;
+    }
+
+    function simulateDeath() public onlyOwner {
+        emit SimulatingDeath();
+        liveliness = Lifesigns.SimulatedDead;
     }
 
     function getBeneficiariesDetails() public view returns (ShareHolder[] memory beneficiaryDetails) {

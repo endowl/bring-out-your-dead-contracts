@@ -12,14 +12,14 @@
     "absolutePath": "@gnosis.pm/safe-contracts/contracts/common/Enum.sol",
     "exportedSymbols": {
       "Enum": [
-        2289
+        2358
       ]
     },
-    "id": 2290,
+    "id": 2359,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2285,
+        "id": 2354,
         "literals": [
           "solidity",
           ">=",
@@ -39,25 +39,25 @@
         "contractKind": "contract",
         "documentation": "@title Enum - Collection of enums\n @author Richard Meissner - <richard@gnosis.pm>",
         "fullyImplemented": true,
-        "id": 2289,
+        "id": 2358,
         "linearizedBaseContracts": [
-          2289
+          2358
         ],
         "name": "Enum",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Enum.Operation",
-            "id": 2288,
+            "id": 2357,
             "members": [
               {
-                "id": 2286,
+                "id": 2355,
                 "name": "Call",
                 "nodeType": "EnumValue",
                 "src": "168:4:4"
               },
               {
-                "id": 2287,
+                "id": 2356,
                 "name": "DelegateCall",
                 "nodeType": "EnumValue",
                 "src": "182:12:4"
@@ -68,7 +68,7 @@
             "src": "143:57:4"
           }
         ],
-        "scope": 2290,
+        "scope": 2359,
         "src": "123:79:4"
       }
     ],
@@ -78,14 +78,14 @@
     "absolutePath": "@gnosis.pm/safe-contracts/contracts/common/Enum.sol",
     "exportedSymbols": {
       "Enum": [
-        2289
+        2358
       ]
     },
-    "id": 2290,
+    "id": 2359,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2285,
+        "id": 2354,
         "literals": [
           "solidity",
           ">=",
@@ -105,25 +105,25 @@
         "contractKind": "contract",
         "documentation": "@title Enum - Collection of enums\n @author Richard Meissner - <richard@gnosis.pm>",
         "fullyImplemented": true,
-        "id": 2289,
+        "id": 2358,
         "linearizedBaseContracts": [
-          2289
+          2358
         ],
         "name": "Enum",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Enum.Operation",
-            "id": 2288,
+            "id": 2357,
             "members": [
               {
-                "id": 2286,
+                "id": 2355,
                 "name": "Call",
                 "nodeType": "EnumValue",
                 "src": "168:4:4"
               },
               {
-                "id": 2287,
+                "id": 2356,
                 "name": "DelegateCall",
                 "nodeType": "EnumValue",
                 "src": "182:12:4"
@@ -134,7 +134,7 @@
             "src": "143:57:4"
           }
         ],
-        "scope": 2290,
+        "scope": 2359,
         "src": "123:79:4"
       }
     ],
@@ -146,7 +146,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-01T22:34:50.287Z",
+  "updatedAt": "2020-08-01T23:04:58.153Z",
   "devdoc": {
     "author": "Richard Meissner - <richard@gnosis.pm>",
     "methods": {},

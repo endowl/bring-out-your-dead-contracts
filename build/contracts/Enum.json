@@ -1,9 +1,9 @@
 {
   "contractName": "Enum",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.1+commit.e6f7d5a4\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"Richard Meissner - <richard@gnosis.pm>\",\"methods\":{},\"title\":\"Enum - Collection of enums\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"@gnosis.pm/safe-contracts/contracts/common/Enum.sol\":\"Enum\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@gnosis.pm/safe-contracts/contracts/common/Enum.sol\":{\"keccak256\":\"0x7bc6e5afb9436d9f7e376c2cdba51ca1f337e1b31c04cca5769db3a77ed40081\",\"urls\":[\"bzz-raw://88b3a68baaff962b69b040af62698034bf9c99319e4a6dce71abc2c0c88fba91\",\"dweb:/ipfs/QmTefyhXcMALQew96u7YRLQBnye9vapqkKBWxbynWpMHDM\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220dfa7c28068e1509a210d0407a34db34df8d405af1e87b2f0d236874f7d7f406964736f6c63430006010033",
-  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220dfa7c28068e1509a210d0407a34db34df8d405af1e87b2f0d236874f7d7f406964736f6c63430006010033",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.1+commit.e6f7d5a4\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"Richard Meissner - <richard@gnosis.pm>\",\"methods\":{},\"title\":\"Enum - Collection of enums\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"@gnosis.pm/safe-contracts/contracts/common/Enum.sol\":\"Enum\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":400},\"remappings\":[]},\"sources\":{\"@gnosis.pm/safe-contracts/contracts/common/Enum.sol\":{\"keccak256\":\"0x7bc6e5afb9436d9f7e376c2cdba51ca1f337e1b31c04cca5769db3a77ed40081\",\"urls\":[\"bzz-raw://88b3a68baaff962b69b040af62698034bf9c99319e4a6dce71abc2c0c88fba91\",\"dweb:/ipfs/QmTefyhXcMALQew96u7YRLQBnye9vapqkKBWxbynWpMHDM\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220abd4acc02ab7b4505834c3ab25ba852d9c152c1c74206860afefd014939d9ac664736f6c63430006010033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220abd4acc02ab7b4505834c3ab25ba852d9c152c1c74206860afefd014939d9ac664736f6c63430006010033",
   "sourceMap": "123:79:4:-:0;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;123:79:4;;;;;;;",
   "deployedSourceMap": "123:79:4:-:0;;;;;",
   "source": "pragma solidity >=0.5.0 <0.7.0;\n\n\n/// @title Enum - Collection of enums\n/// @author Richard Meissner - <richard@gnosis.pm>\ncontract Enum {\n    enum Operation {\n        Call,\n        DelegateCall\n    }\n}\n",
@@ -12,14 +12,14 @@
     "absolutePath": "@gnosis.pm/safe-contracts/contracts/common/Enum.sol",
     "exportedSymbols": {
       "Enum": [
-        2288
+        2254
       ]
     },
-    "id": 2289,
+    "id": 2255,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2284,
+        "id": 2250,
         "literals": [
           "solidity",
           ">=",
@@ -39,25 +39,25 @@
         "contractKind": "contract",
         "documentation": "@title Enum - Collection of enums\n @author Richard Meissner - <richard@gnosis.pm>",
         "fullyImplemented": true,
-        "id": 2288,
+        "id": 2254,
         "linearizedBaseContracts": [
-          2288
+          2254
         ],
         "name": "Enum",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Enum.Operation",
-            "id": 2287,
+            "id": 2253,
             "members": [
               {
-                "id": 2285,
+                "id": 2251,
                 "name": "Call",
                 "nodeType": "EnumValue",
                 "src": "168:4:4"
               },
               {
-                "id": 2286,
+                "id": 2252,
                 "name": "DelegateCall",
                 "nodeType": "EnumValue",
                 "src": "182:12:4"
@@ -68,7 +68,7 @@
             "src": "143:57:4"
           }
         ],
-        "scope": 2289,
+        "scope": 2255,
         "src": "123:79:4"
       }
     ],
@@ -78,14 +78,14 @@
     "absolutePath": "@gnosis.pm/safe-contracts/contracts/common/Enum.sol",
     "exportedSymbols": {
       "Enum": [
-        2288
+        2254
       ]
     },
-    "id": 2289,
+    "id": 2255,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2284,
+        "id": 2250,
         "literals": [
           "solidity",
           ">=",
@@ -105,25 +105,25 @@
         "contractKind": "contract",
         "documentation": "@title Enum - Collection of enums\n @author Richard Meissner - <richard@gnosis.pm>",
         "fullyImplemented": true,
-        "id": 2288,
+        "id": 2254,
         "linearizedBaseContracts": [
-          2288
+          2254
         ],
         "name": "Enum",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Enum.Operation",
-            "id": 2287,
+            "id": 2253,
             "members": [
               {
-                "id": 2285,
+                "id": 2251,
                 "name": "Call",
                 "nodeType": "EnumValue",
                 "src": "168:4:4"
               },
               {
-                "id": 2286,
+                "id": 2252,
                 "name": "DelegateCall",
                 "nodeType": "EnumValue",
                 "src": "182:12:4"
@@ -134,7 +134,7 @@
             "src": "143:57:4"
           }
         ],
-        "scope": 2289,
+        "scope": 2255,
         "src": "123:79:4"
       }
     ],
@@ -146,7 +146,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-01T05:29:51.020Z",
+  "updatedAt": "2020-08-01T06:37:50.949Z",
   "devdoc": {
     "author": "Richard Meissner - <richard@gnosis.pm>",
     "methods": {},

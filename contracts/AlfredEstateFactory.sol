@@ -8,6 +8,7 @@ contract BringOutYourDeadFactory {
     event estateCreated(address indexed estate, address indexed owner);
 
     // Use CREATE2 to create estate at predeterminable address
+    /*
     function newEstate(address oracle, address executor, uint256 salt) public payable returns (address payable estate) {
         bytes memory code = type(BringOutYourDead).creationCode;
         bytes32 newsalt = keccak256(abi.encodePacked(salt, msg.sender));
@@ -21,6 +22,20 @@ contract BringOutYourDeadFactory {
         }
         if(address(0) != executor) {
             BringOutYourDead(estate).changeExecutor(executor);
+        }
+        BringOutYourDead(estate).transferOwnership(msg.sender);
+        emit estateCreated(address(estate), msg.sender);
+    }
+    */
+
+    // Use CREATE2 to create estate at predeterminable address
+    function newEstate(uint256 salt) public payable returns (address payable estate) {
+        bytes memory code = type(BringOutYourDead).creationCode;
+        bytes32 newsalt = keccak256(abi.encodePacked(salt, msg.sender));
+        // address salt = msg.sender;
+        assembly {
+            estate := create2(0, add(code, 0x20), mload(code), newsalt)
+            if iszero(extcodesize(estate)) { revert(0, 0) }
         }
         BringOutYourDead(estate).transferOwnership(msg.sender);
         emit estateCreated(address(estate), msg.sender);

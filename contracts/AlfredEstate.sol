@@ -1,25 +1,15 @@
 pragma solidity ^0.6.0;
-//pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 // Alfred.Estate - Proof of Death - Digital Inheritance Automation
 
-//import "./SafeMath.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-//import "./IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-//import "https://github.com/gnosis/safe-contracts/blob/v1.1.1/contracts/base/Module.sol";
-//import "./gnosis/safe-contracts-1.1.1/contracts/base/Module.sol";
-//import "./gnosis/safe-contracts-1.1.1/contracts/base/ModuleManager.sol";
-//import "./gnosis/safe-contracts-1.1.1/contracts/common/Enum.sol";
-
 //import "@gnosis.pm/safe-contracts/contracts/base/Module.sol";
 //import "@gnosis.pm/safe-contracts/contracts/base/ModuleManager.sol";
-import "./IModuleManager.sol";
+
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
-
-
+import "./IModuleManager.sol";
 
 //contract BringOutYourDead is Module {
 contract BringOutYourDead {
@@ -170,7 +160,7 @@ contract BringOutYourDead {
         // Any code  here could consume too much gas, causing basic ETH payments to fail
     }
 
-    /// @dev Allows an executor or beneficiary to confirm a Safe transaction.
+    /// @dev Allows an executor or beneficiary to confirm a Safe recovery transaction.
     /// @param dataHash Safe transaction hash.
     function confirmTransaction(bytes32 dataHash)
         public
@@ -235,6 +225,7 @@ contract BringOutYourDead {
     }
 
     // The Gnosis Safe creating this estate should call this function during initialization
+    // TODO: This can probably be replaced with a call to setGnosisSafe(...) during initialization
     function gnosisSafeSetup() public onlyOwner {
         // Gnosis Safe contracts/base/Module.sol:
         // setManager();
@@ -467,6 +458,7 @@ contract BringOutYourDead {
         }
     }
 
+    // TODO: Possibly remove this
     function addTrackedToken(address token) public onlyController {
         require(address(0) != token, "Token address is missing");
         emit TrackedTokenAdded(token);

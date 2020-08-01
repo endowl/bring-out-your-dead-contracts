@@ -1,0 +1,1290 @@
+{
+  "contractName": "CreateAndAddModules",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract Module",
+          "name": "module",
+          "type": "address"
+        }
+      ],
+      "name": "enableModule",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "proxyFactory",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "createAndAddModules",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"proxyFactory\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"createAndAddModules\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract Module\",\"name\":\"module\",\"type\":\"address\"}],\"name\":\"enableModule\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Stefan George - <stefan@gnosis.pm>Richard Meissner - <richard@gnosis.pm>\",\"methods\":{\"createAndAddModules(address,bytes)\":{\"details\":\"Allows to create and add multiple module in one transaction.\",\"params\":{\"data\":\"Modules constructor payload. This is the data for each proxy factory call concatinated. (e.g. <byte_array_len_1><byte_array_data_1><byte_array_len_2><byte_array_data_2>)\",\"proxyFactory\":\"Module proxy factory contract.\"}},\"enableModule(address)\":{\"details\":\"Function required to compile contract. Gnosis Safe function is called instead.\",\"params\":{\"module\":\"Not used.\"}}},\"title\":\"Create and Add Modules - Allows to create and add multiple module in one transaction.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/libraries/CreateAndAddModules.sol\":\"CreateAndAddModules\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/base/Executor.sol\":{\"keccak256\":\"0xd2835623a200b6f14979751aff14e48362b5db0d86fff17dfb6a982790ff6c67\",\"urls\":[\"bzz-raw://df85c3b4dc546ffd8790a155bf6190b55168a69f469624a9134f1e7a9e079880\",\"dweb:/ipfs/QmXozPPHk7KAyoihdx4FEn4dEaR2x9yDJthQcZPR3Knxpv\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/base/Module.sol\":{\"keccak256\":\"0x0d168bb2c28fe04185e992692705925d700ecc32692e1a1f997478c55722b9ad\",\"urls\":[\"bzz-raw://72b39ab237628e99e68b89269a99efbf7f4c977ce8dcda9e947e74ffffc2bf36\",\"dweb:/ipfs/QmekYYrv5X2wdg2QqaP96qhkxpwTT8nt47CHvuBxzHv9hp\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/base/ModuleManager.sol\":{\"keccak256\":\"0xd1f41edf7fd05526882d77b9517155b5c2d30839aab3b019658d923355706c58\",\"urls\":[\"bzz-raw://b322ec622fe7860c63d7f8de376db60a58c8db37c6cedaf466ebd5de8776431a\",\"dweb:/ipfs/QmYor9Qm7mRyXa55VDz9Rcbf82QE2bmi9yFP5c2kMw15mk\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/common/Enum.sol\":{\"keccak256\":\"0x7bc6e5afb9436d9f7e376c2cdba51ca1f337e1b31c04cca5769db3a77ed40081\",\"urls\":[\"bzz-raw://88b3a68baaff962b69b040af62698034bf9c99319e4a6dce71abc2c0c88fba91\",\"dweb:/ipfs/QmTefyhXcMALQew96u7YRLQBnye9vapqkKBWxbynWpMHDM\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/common/MasterCopy.sol\":{\"keccak256\":\"0xf0c63fb6f7bcfc761300b7a13b3062e773ff5f8fc143bda7868ba1696100faeb\",\"urls\":[\"bzz-raw://b43713c7a22228471e4c385178a7ad35c27fb1822e6d215b221490668a9b94a9\",\"dweb:/ipfs/QmYr7uTVcLNPxWeYThFY8TnqARbN8RG4t9ixHEVYnkeNBG\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/common/SelfAuthorized.sol\":{\"keccak256\":\"0x4c4f094227fc466846a97fe375c47ecdfcab050c303baeb69b5970d28db717a6\",\"urls\":[\"bzz-raw://42759fe6b2433ea24fd0fbe98a144ef55e464f87861a13aa364db8a6f4a01cf1\",\"dweb:/ipfs/QmTWPnHdfcBbddkMJxvEvoWs3CZoKB5rtz3s8K2ii9z9CG\"]},\"/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/libraries/CreateAndAddModules.sol\":{\"keccak256\":\"0x14a40abb08497d3080823c9ecf6588c5776ff3b47839ffcd10c1737d71b52e91\",\"urls\":[\"bzz-raw://1965a6a354f8114a4e580e86780498dc113082456ee3d5aa26e97252e135b80d\",\"dweb:/ipfs/Qmeoc9Nzgbh822X1xCQn2a5g8va7ABFpo9VwHgy7H4ELmd\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061029f806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806360df7f581461003b578063610b592514610116575b600080fd5b6101146004803603604081101561005157600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035906020019064010000000081111561008e57600080fd5b8201836020820111156100a057600080fd5b803590602001918460018302840111640100000000831117156100c257600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f82011690508083019250505050505050919291929050505061015a565b005b6101586004803603602081101561012c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610265565b005b600081519050600080600090505b8281101561025e5780840160200151818501604001604051600060208285858c5af4141561019557600080fd5b73ffffffffffffffffffffffffffffffffffffffff8151169450602080601f85010402602001840193505050503073ffffffffffffffffffffffffffffffffffffffff1663610b5925836040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561024157600080fd5b505af1158015610255573d6000803e3d6000fd5b50505050610168565b5050505050565b600080fdfea265627a7a723158206a96223076db830e6b603b9102fa3b7a8b9572868709c8745f66a4082038d17964736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806360df7f581461003b578063610b592514610116575b600080fd5b6101146004803603604081101561005157600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291908035906020019064010000000081111561008e57600080fd5b8201836020820111156100a057600080fd5b803590602001918460018302840111640100000000831117156100c257600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f82011690508083019250505050505050919291929050505061015a565b005b6101586004803603602081101561012c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610265565b005b600081519050600080600090505b8281101561025e5780840160200151818501604001604051600060208285858c5af4141561019557600080fd5b73ffffffffffffffffffffffffffffffffffffffff8151169450602080601f85010402602001840193505050503073ffffffffffffffffffffffffffffffffffffffff1663610b5925836040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561024157600080fd5b505af1158015610255573d6000803e3d6000fd5b50505050610168565b5050505050565b600080fdfea265627a7a723158206a96223076db830e6b603b9102fa3b7a8b9572868709c8745f66a4082038d17964736f6c63430005100032",
+  "sourceMap": "258:1464:23:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;258:1464:23;;;;;;;",
+  "deployedSourceMap": "258:1464:23:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;258:1464:23;;;;;;;;;;;;;;;;;;;;;;;;828:892;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;828:892:23;;;;;;;;;;;;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;828:892:23;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;828:892:23;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;828:892:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;828:892:23;;;;;;;;;;;;;;;:::i;:::-;;418:81;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;418:81:23;;;;;;;;;;;;;;;;;;;:::i;:::-;;828:892;927:14;944:4;:11;927:28;;965:13;988:9;1000:1;988:13;;1011:703;1022:6;1018:1;:10;1011:703;;;1190:1;1184:4;1180:12;1174:4;1170:23;1164:30;1250:1;1244:4;1240:12;1234:4;1230:23;1291:4;1285:11;1398:1;1391:4;1383:6;1364:17;1351:11;1337:12;1332:3;1319:77;1316:84;1313:2;;;1413:1;1410;1403:12;1313:2;1463:42;1454:6;1448:13;1444:62;1434:72;;1644:4;1637;1630;1611:17;1607:28;1603:39;1599:50;1593:4;1589:61;1586:1;1582:69;1577:74;;1121:544;;;1678:4;:17;;;1696:6;1678:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1678:25:23;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1678:25:23;;;;1011:703;;;828:892;;;;;:::o;418:81::-;484:8;;",
+  "source": "pragma solidity >=0.5.0 <0.7.0;\nimport \"../base/Module.sol\";\n\n\n/// @title Create and Add Modules - Allows to create and add multiple module in one transaction.\n/// @author Stefan George - <stefan@gnosis.pm>\n/// @author Richard Meissner - <richard@gnosis.pm>\ncontract CreateAndAddModules {\n\n    /// @dev Function required to compile contract. Gnosis Safe function is called instead.\n    /// @param module Not used.\n    function enableModule(Module module)\n        public\n    {\n        revert();\n    }\n\n    /// @dev Allows to create and add multiple module in one transaction.\n    /// @param proxyFactory Module proxy factory contract.\n    /// @param data Modules constructor payload. This is the data for each proxy factory call concatinated. (e.g. <byte_array_len_1><byte_array_data_1><byte_array_len_2><byte_array_data_2>)\n    function createAndAddModules(address proxyFactory, bytes memory data)\n        public\n    {\n        uint256 length = data.length;\n        Module module;\n        uint256 i = 0;\n        while (i < length) {\n            // solium-disable-next-line security/no-inline-assembly\n            assembly {\n                let createBytesLength := mload(add(0x20, add(data, i)))\n                let createBytes := add(0x40, add(data, i))\n\n                let output := mload(0x40)\n                if eq(delegatecall(gas, proxyFactory, createBytes, createBytesLength, output, 0x20), 0) { revert(0, 0) }\n                module := and(mload(output), 0xffffffffffffffffffffffffffffffffffffffff)\n\n                // Data is always padded to 32 bytes\n                i := add(i, add(0x20, mul(div(add(createBytesLength, 0x1f), 0x20), 0x20)))\n            }\n            this.enableModule(module);\n        }\n    }\n}\n",
+  "sourcePath": "C:/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/libraries/CreateAndAddModules.sol",
+  "ast": {
+    "absolutePath": "/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/libraries/CreateAndAddModules.sol",
+    "exportedSymbols": {
+      "CreateAndAddModules": [
+        4789
+      ]
+    },
+    "id": 4790,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4746,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:23"
+      },
+      {
+        "absolutePath": "/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/base/Module.sol",
+        "file": "../base/Module.sol",
+        "id": 4747,
+        "nodeType": "ImportDirective",
+        "scope": 4790,
+        "sourceUnit": 3461,
+        "src": "32:28:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Create and Add Modules - Allows to create and add multiple module in one transaction.\n @author Stefan George - <stefan@gnosis.pm>\n @author Richard Meissner - <richard@gnosis.pm>",
+        "fullyImplemented": true,
+        "id": 4789,
+        "linearizedBaseContracts": [
+          4789
+        ],
+        "name": "CreateAndAddModules",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4755,
+              "nodeType": "Block",
+              "src": "474:25:23",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4752,
+                      "name": "revert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        7524,
+                        7525
+                      ],
+                      "referencedDeclaration": 7524,
+                      "src": "484:6:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_revert_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 4753,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "484:8:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4754,
+                  "nodeType": "ExpressionStatement",
+                  "src": "484:8:23"
+                }
+              ]
+            },
+            "documentation": "@dev Function required to compile contract. Gnosis Safe function is called instead.\n @param module Not used.",
+            "id": 4756,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "enableModule",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4750,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4749,
+                  "name": "module",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4756,
+                  "src": "440:13:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_Module_$3460",
+                    "typeString": "contract Module"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4748,
+                    "name": "Module",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3460,
+                    "src": "440:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Module_$3460",
+                      "typeString": "contract Module"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "439:15:23"
+            },
+            "returnParameters": {
+              "id": 4751,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "474:0:23"
+            },
+            "scope": 4789,
+            "src": "418:81:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 4787,
+              "nodeType": "Block",
+              "src": "917:803:23",
+              "statements": [
+                {
+                  "assignments": [
+                    4764
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4764,
+                      "name": "length",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "927:14:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 4763,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "927:7:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4767,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 4765,
+                      "name": "data",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4760,
+                      "src": "944:4:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_memory_ptr",
+                        "typeString": "bytes memory"
+                      }
+                    },
+                    "id": 4766,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "944:11:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "927:28:23"
+                },
+                {
+                  "assignments": [
+                    4769
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4769,
+                      "name": "module",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "965:13:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_Module_$3460",
+                        "typeString": "contract Module"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 4768,
+                        "name": "Module",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 3460,
+                        "src": "965:6:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Module_$3460",
+                          "typeString": "contract Module"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4770,
+                  "initialValue": null,
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "965:13:23"
+                },
+                {
+                  "assignments": [
+                    4772
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4772,
+                      "name": "i",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "988:9:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 4771,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "988:7:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4774,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 4773,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1000:1:23",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "988:13:23"
+                },
+                {
+                  "body": {
+                    "id": 4785,
+                    "nodeType": "Block",
+                    "src": "1030:684:23",
+                    "statements": [
+                      {
+                        "externalReferences": [
+                          {
+                            "data": {
+                              "declaration": 4760,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1184:4:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1190:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "data": {
+                              "declaration": 4760,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1244:4:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1250:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1577:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1586:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "module": {
+                              "declaration": 4769,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1434:6:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "proxyFactory": {
+                              "declaration": 4758,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1337:12:23",
+                              "valueSize": 1
+                            }
+                          }
+                        ],
+                        "id": 4778,
+                        "nodeType": "InlineAssembly",
+                        "operations": "{\n    let createBytesLength := mload(add(0x20, add(data, i)))\n    let createBytes := add(0x40, add(data, i))\n    let output := mload(0x40)\n    if eq(delegatecall(gas(), proxyFactory, createBytes, createBytesLength, output, 0x20), 0) { revert(0, 0) }\n    module := and(mload(output), 0xffffffffffffffffffffffffffffffffffffffff)\n    i := add(i, add(0x20, mul(div(add(createBytesLength, 0x1f), 0x20), 0x20)))\n}",
+                        "src": "1112:553:23"
+                      },
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "id": 4782,
+                              "name": "module",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 4769,
+                              "src": "1696:6:23",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Module_$3460",
+                                "typeString": "contract Module"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_Module_$3460",
+                                "typeString": "contract Module"
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 4779,
+                              "name": "this",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 7585,
+                              "src": "1678:4:23",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_CreateAndAddModules_$4789",
+                                "typeString": "contract CreateAndAddModules"
+                              }
+                            },
+                            "id": 4781,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "enableModule",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 4756,
+                            "src": "1678:17:23",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_external_nonpayable$_t_contract$_Module_$3460_$returns$__$",
+                              "typeString": "function (contract Module) external"
+                            }
+                          },
+                          "id": 4783,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1678:25:23",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_tuple$__$",
+                            "typeString": "tuple()"
+                          }
+                        },
+                        "id": 4784,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1678:25:23"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 4777,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 4775,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4772,
+                      "src": "1018:1:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 4776,
+                      "name": "length",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4764,
+                      "src": "1022:6:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1018:10:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 4786,
+                  "nodeType": "WhileStatement",
+                  "src": "1011:703:23"
+                }
+              ]
+            },
+            "documentation": "@dev Allows to create and add multiple module in one transaction.\n @param proxyFactory Module proxy factory contract.\n @param data Modules constructor payload. This is the data for each proxy factory call concatinated. (e.g. <byte_array_len_1><byte_array_data_1><byte_array_len_2><byte_array_data_2>)",
+            "id": 4788,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createAndAddModules",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4761,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4758,
+                  "name": "proxyFactory",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4788,
+                  "src": "857:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4757,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "857:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4760,
+                  "name": "data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4788,
+                  "src": "879:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4759,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "879:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "856:41:23"
+            },
+            "returnParameters": {
+              "id": 4762,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "917:0:23"
+            },
+            "scope": 4789,
+            "src": "828:892:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4790,
+        "src": "258:1464:23"
+      }
+    ],
+    "src": "0:1723:23"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/libraries/CreateAndAddModules.sol",
+    "exportedSymbols": {
+      "CreateAndAddModules": [
+        4789
+      ]
+    },
+    "id": 4790,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4746,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:23"
+      },
+      {
+        "absolutePath": "/C/Users/morgan/PycharmProjects/alfred-estate-contracts/contracts/gnosis/safe-contracts-1.1.1/contracts/base/Module.sol",
+        "file": "../base/Module.sol",
+        "id": 4747,
+        "nodeType": "ImportDirective",
+        "scope": 4790,
+        "sourceUnit": 3461,
+        "src": "32:28:23",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Create and Add Modules - Allows to create and add multiple module in one transaction.\n @author Stefan George - <stefan@gnosis.pm>\n @author Richard Meissner - <richard@gnosis.pm>",
+        "fullyImplemented": true,
+        "id": 4789,
+        "linearizedBaseContracts": [
+          4789
+        ],
+        "name": "CreateAndAddModules",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4755,
+              "nodeType": "Block",
+              "src": "474:25:23",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 4752,
+                      "name": "revert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        7524,
+                        7525
+                      ],
+                      "referencedDeclaration": 7524,
+                      "src": "484:6:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_revert_pure$__$returns$__$",
+                        "typeString": "function () pure"
+                      }
+                    },
+                    "id": 4753,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "484:8:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4754,
+                  "nodeType": "ExpressionStatement",
+                  "src": "484:8:23"
+                }
+              ]
+            },
+            "documentation": "@dev Function required to compile contract. Gnosis Safe function is called instead.\n @param module Not used.",
+            "id": 4756,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "enableModule",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4750,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4749,
+                  "name": "module",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4756,
+                  "src": "440:13:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_Module_$3460",
+                    "typeString": "contract Module"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 4748,
+                    "name": "Module",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 3460,
+                    "src": "440:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Module_$3460",
+                      "typeString": "contract Module"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "439:15:23"
+            },
+            "returnParameters": {
+              "id": 4751,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "474:0:23"
+            },
+            "scope": 4789,
+            "src": "418:81:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 4787,
+              "nodeType": "Block",
+              "src": "917:803:23",
+              "statements": [
+                {
+                  "assignments": [
+                    4764
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4764,
+                      "name": "length",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "927:14:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 4763,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "927:7:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4767,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 4765,
+                      "name": "data",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4760,
+                      "src": "944:4:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_memory_ptr",
+                        "typeString": "bytes memory"
+                      }
+                    },
+                    "id": 4766,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "length",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "944:11:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "927:28:23"
+                },
+                {
+                  "assignments": [
+                    4769
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4769,
+                      "name": "module",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "965:13:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_Module_$3460",
+                        "typeString": "contract Module"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 4768,
+                        "name": "Module",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 3460,
+                        "src": "965:6:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Module_$3460",
+                          "typeString": "contract Module"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4770,
+                  "initialValue": null,
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "965:13:23"
+                },
+                {
+                  "assignments": [
+                    4772
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 4772,
+                      "name": "i",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 4787,
+                      "src": "988:9:23",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 4771,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "988:7:23",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 4774,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 4773,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "1000:1:23",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "988:13:23"
+                },
+                {
+                  "body": {
+                    "id": 4785,
+                    "nodeType": "Block",
+                    "src": "1030:684:23",
+                    "statements": [
+                      {
+                        "externalReferences": [
+                          {
+                            "data": {
+                              "declaration": 4760,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1184:4:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1190:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "data": {
+                              "declaration": 4760,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1244:4:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1250:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1577:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "i": {
+                              "declaration": 4772,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1586:1:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "module": {
+                              "declaration": 4769,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1434:6:23",
+                              "valueSize": 1
+                            }
+                          },
+                          {
+                            "proxyFactory": {
+                              "declaration": 4758,
+                              "isOffset": false,
+                              "isSlot": false,
+                              "src": "1337:12:23",
+                              "valueSize": 1
+                            }
+                          }
+                        ],
+                        "id": 4778,
+                        "nodeType": "InlineAssembly",
+                        "operations": "{\n    let createBytesLength := mload(add(0x20, add(data, i)))\n    let createBytes := add(0x40, add(data, i))\n    let output := mload(0x40)\n    if eq(delegatecall(gas(), proxyFactory, createBytes, createBytesLength, output, 0x20), 0) { revert(0, 0) }\n    module := and(mload(output), 0xffffffffffffffffffffffffffffffffffffffff)\n    i := add(i, add(0x20, mul(div(add(createBytesLength, 0x1f), 0x20), 0x20)))\n}",
+                        "src": "1112:553:23"
+                      },
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "arguments": [
+                            {
+                              "argumentTypes": null,
+                              "id": 4782,
+                              "name": "module",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 4769,
+                              "src": "1696:6:23",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_Module_$3460",
+                                "typeString": "contract Module"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_Module_$3460",
+                                "typeString": "contract Module"
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 4779,
+                              "name": "this",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 7585,
+                              "src": "1678:4:23",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_CreateAndAddModules_$4789",
+                                "typeString": "contract CreateAndAddModules"
+                              }
+                            },
+                            "id": 4781,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "enableModule",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 4756,
+                            "src": "1678:17:23",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_external_nonpayable$_t_contract$_Module_$3460_$returns$__$",
+                              "typeString": "function (contract Module) external"
+                            }
+                          },
+                          "id": 4783,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1678:25:23",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_tuple$__$",
+                            "typeString": "tuple()"
+                          }
+                        },
+                        "id": 4784,
+                        "nodeType": "ExpressionStatement",
+                        "src": "1678:25:23"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 4777,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "id": 4775,
+                      "name": "i",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4772,
+                      "src": "1018:1:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "<",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "id": 4776,
+                      "name": "length",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4764,
+                      "src": "1022:6:23",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1018:10:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 4786,
+                  "nodeType": "WhileStatement",
+                  "src": "1011:703:23"
+                }
+              ]
+            },
+            "documentation": "@dev Allows to create and add multiple module in one transaction.\n @param proxyFactory Module proxy factory contract.\n @param data Modules constructor payload. This is the data for each proxy factory call concatinated. (e.g. <byte_array_len_1><byte_array_data_1><byte_array_len_2><byte_array_data_2>)",
+            "id": 4788,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createAndAddModules",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4761,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4758,
+                  "name": "proxyFactory",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4788,
+                  "src": "857:20:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4757,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "857:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4760,
+                  "name": "data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4788,
+                  "src": "879:17:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4759,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "879:5:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "856:41:23"
+            },
+            "returnParameters": {
+              "id": 4762,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "917:0:23"
+            },
+            "scope": 4789,
+            "src": "828:892:23",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4790,
+        "src": "258:1464:23"
+      }
+    ],
+    "src": "0:1723:23"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-07-31T02:48:27.849Z",
+  "devdoc": {
+    "author": "Stefan George - <stefan@gnosis.pm>Richard Meissner - <richard@gnosis.pm>",
+    "methods": {
+      "createAndAddModules(address,bytes)": {
+        "details": "Allows to create and add multiple module in one transaction.",
+        "params": {
+          "data": "Modules constructor payload. This is the data for each proxy factory call concatinated. (e.g. <byte_array_len_1><byte_array_data_1><byte_array_len_2><byte_array_data_2>)",
+          "proxyFactory": "Module proxy factory contract."
+        }
+      },
+      "enableModule(address)": {
+        "details": "Function required to compile contract. Gnosis Safe function is called instead.",
+        "params": {
+          "module": "Not used."
+        }
+      }
+    },
+    "title": "Create and Add Modules - Allows to create and add multiple module in one transaction."
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

@@ -9,7 +9,6 @@ contract AlfredEstateFactory {
     event estateCreated(address indexed estate, address indexed owner);
 
     // Use CREATE2 to create estate at predeterminable address
-    /*
     function newEstate(address oracle, address executor, uint256 salt) public payable returns (address payable estate) {
         bytes memory code = type(AlfredEstate).creationCode;
         bytes32 newsalt = keccak256(abi.encodePacked(salt, msg.sender));
@@ -27,8 +26,8 @@ contract AlfredEstateFactory {
         AlfredEstate(estate).transferOwnership(msg.sender);
         emit estateCreated(address(estate), msg.sender);
     }
-    */
 
+    /*
     // Use CREATE2 to create estate at predeterminable address
     function newEstate(uint256 salt) public payable returns (address payable estate) {
         bytes memory code = type(AlfredEstate).creationCode;
@@ -41,6 +40,7 @@ contract AlfredEstateFactory {
         AlfredEstate(estate).transferOwnership(msg.sender);
         emit estateCreated(address(estate), msg.sender);
     }
+    */
 
     function getEstateAddress(address creator, uint256 salt) public view returns (address estate) {
         bytes memory code = type(AlfredEstate).creationCode;

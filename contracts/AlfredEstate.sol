@@ -9,22 +9,21 @@ pragma experimental ABIEncoderV2;
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@gnosis.pm/safe-contracts/contracts/common/Enum.sol";
-import "./IModuleManager.sol";
+import "./IModuleManager.sol";  // Interface generated from @gnosis.pm/safe-contracts/contracts/base/ModuleManager.sol
 
 //contract BringOutYourDead is Module {
-//contract BringOutYourDead {
 contract AlfredEstate {
     uint constant MAX_UINT = 2**256 - 1;
     address constant KYBER_ETH_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address public KYBER_NETWORK_PROXY_ADDRESS = 0x818E6FECD516Ecc3849DAf6845e3EC868087B755;
     address constant REFERAL_ADDRESS = 0xdac3794d1644D7cE73d098C19f33E7e10271b2bC;
 
-    // Gnosis Safe module manager
-    // ModuleManager public manager;  Inherited from Module
     address public owner;
-    address public gnosisSafe;
     address public executor;
     address public oracle;
+    // Gnosis Safe module manager
+    // ModuleManager public manager;  // Inherited from Module - using gnosisSafe variable instead
+    address public gnosisSafe;
     address[] public beneficiaries;
     mapping(address => uint256) public beneficiaryShares;
     mapping(address => uint256) public beneficiaryIndex;
@@ -35,7 +34,8 @@ contract AlfredEstate {
     uint256 private precision = 8**10;
     address[] public trackedTokens;
 
-    enum Lifesigns { Alive, Dead, Uncertain }
+    // enum Lifesigns { Alive, Dead, Uncertain }  // This ordering was found to be unintuitive
+    enum Lifesigns { Alive, Uncertain, Dead, SimulatedDead }
     Lifesigns public liveliness;
     uint256 public declareDeadAfter;
     uint256 public uncertaintyPeriod = 8 weeks;
@@ -124,13 +124,11 @@ contract AlfredEstate {
 
     modifier onlyBeneficiary() {
         require(beneficiaryIndex[msg.sender] > 0, "Caller is not a registered beneficiary");
-        // require(beneficiaryShares[msg.sender] > 0, "Caller does not have any shares");
         _;
     }
 
     modifier onlyMember() {
         require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryIndex[msg.sender] > 0, "Caller is not a member");
-        // require(msg.sender == owner || msg.sender == gnosisSafe || msg.sender == executor || beneficiaryShares[msg.sender] > 0, "Caller is not a member");
         _;
     }
 

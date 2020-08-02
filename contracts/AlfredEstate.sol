@@ -39,7 +39,6 @@ contract AlfredEstate {
     Lifesigns public liveliness;
     uint256 public declareDeadAfter;
     uint256 public uncertaintyPeriod = 8 weeks;
-    // uint256 public uncertaintyPeriod = 8 seconds;  // For demonstration
 
     // Gnosis Safe Recovery settings
     bool public isExecutorRequiredForSafeRecovery;
@@ -234,6 +233,7 @@ contract AlfredEstate {
         return keccak256(data);
     }
 
+    /*
     // The Gnosis Safe creating this estate should call this function during initialization
     // TODO: This can probably be replaced with a call to setGnosisSafe(...) during initialization
     function gnosisSafeSetup() public onlyOwner {
@@ -245,6 +245,7 @@ contract AlfredEstate {
 
         setGnosisSafe(msg.sender);
     }
+    */
 
     /*
     function setManager() internal virtual override
@@ -294,13 +295,15 @@ contract AlfredEstate {
     }
 
     function changeOracle(address newOracle) public onlyOwner {
-        require(newOracle != address(0), "New oracle is missing");
+        // Allow setting to zero address to disable oracle
+        // require(newOracle != address(0), "New oracle is missing");
         emit OracleChanged(oracle, newOracle);
         oracle = newOracle;
     }
 
     function changeExecutor(address newExecutor) public onlyOwnerOrExecutor {
-        require(newExecutor != address(0), "New executor is missing");
+        // Allow setting to zero address to remove executor
+        // require(newExecutor != address(0), "New executor is missing");
         emit ExecutorChanged(executor, newExecutor);
         executor = newExecutor;
     }
@@ -310,6 +313,7 @@ contract AlfredEstate {
         liveliness = Lifesigns.SimulatedDead;
     }
 
+    // TODO: Repair or remove this, it fails
     function getBeneficiariesDetails() public view returns (ShareHolder[] memory beneficiaryDetails) {
         for(uint i=0; i<beneficiaries.length; i++) {
             beneficiaryDetails[i] = ShareHolder(beneficiaries[i], beneficiaryShares[beneficiaries[i]]);
@@ -355,9 +359,8 @@ contract AlfredEstate {
 
     function removeBeneficiary(address beneficiary) public onlyController {
         require(beneficiary != address(0), "Beneficiary address is missing");
-        // require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
-        require(beneficiaryIndex[beneficiary] > 0, "Address is not a registered beneficiary");
         uint256 index = beneficiaryIndex[beneficiary];
+        require(index > 0, "Address is not a registered beneficiary");
         for(uint256 i = index; i<beneficiaries.length; i++) {
             beneficiaries[i] = beneficiaries[i+1];
         }
@@ -372,12 +375,11 @@ contract AlfredEstate {
 
     function changeBeneficiaryShares(address beneficiary, uint256 newShares) public onlyController {
         require(beneficiary != address(0), "Beneficiary address is missing");
-        // require(beneficiaryShares[beneficiary] > 0, "Account is not a current beneficiary");
         require(beneficiaryIndex[beneficiary] > 0, "Address is not a registered beneficiary");
-        // require(newShares > 0, "Shares must be greater than zero");
         uint256 oldShares = beneficiaryShares[beneficiary];
-        totalShares = SafeMath.sub(totalShares, oldShares);
-        totalShares = SafeMath.add(totalShares, newShares);
+        // totalShares = SafeMath.sub(totalShares, oldShares);
+        // totalShares = SafeMath.add(totalShares, newShares);
+        totalShares = SafeMath.add(SafeMath.sub(totalShares, oldShares), newShares);
         beneficiaryShares[beneficiary] = newShares;
         emit ChangedBeneficiaryShares(beneficiary, oldShares, newShares);
     }
@@ -548,12 +550,23 @@ contract AlfredEstate {
     }
 
     function setDead() internal notDead {
+        // Check if conditions have been met to declare dead
+        if(liveliness == Lifesigns.Uncertain && declareDeadAfter != 0 && declareDeadAfter < now) {
+            // Oracle marked lifesigns as uncertain and enough time has passed. Okay to set owner as dead.
+        } else if(isDeadMansSwitchEnabled && deadMansSwitchLastCheckin + (deadMansSwitchCheckinSeconds) < now) {
+            // Deadmansswitch is enabled and timeout since last checkin has passed.  Okay to set owner as dead.
+        } else {
+            // Conditions have not been met.
+            revert("Not dead yet");
+        }
+
         // NOTE: This functionality will be enabled when the death oracle is fully implemented
         // require(liveliness == Lifesigns.Uncertain, "Owner has not been reported as dead yet");
         // require(declareDeadAfter != 0 && declareDeadAfter < now, "Owner still has time to demonstrate life");
 
-        require(isDeadMansSwitchEnabled, "Dead Man's Switch is not enabled");
-        require(deadMansSwitchLastCheckin + (deadMansSwitchCheckinSeconds) < now, "Owner has checked-in as alive too recently");
+        // require(isDeadMansSwitchEnabled, "Dead Man's Switch is not enabled");
+        // require(deadMansSwitchLastCheckin + (deadMansSwitchCheckinSeconds) < now, "Owner has checked-in as alive too recently");
+
         emit ConfirmationOfDeath();
         liveliness = Lifesigns.Dead;
     }
